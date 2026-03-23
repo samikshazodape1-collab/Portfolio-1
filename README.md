@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Samiksha Zodape | Portfolio</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600&amp;display=swap');
+        
+        :root {
+            --neon-cyan: #00f5ff;
+            --neon-blue: #00aaff;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0a;
+            color: #e0e0e0;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+        
+        /* GLOWING BACKGROUND CANVAS */
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            opacity: 0.6;
+        }
+        
+        /* NAV */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 10, 10, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0, 245, 255, 0.15);
+            z-index: 1000;
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        
+        .logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: var(--neon-cyan);
+            text-shadow: 0 0 15px var(--neon-cyan);
+            letter-spacing: -1px;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            color: #e0e0e0;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background: var(--neon-cyan);
+            box-shadow: 0 0 10px var(--neon-cyan);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: var(--neon-cyan);
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        .hamburger {
+            display: none;
+            font-size: 1.8rem;
+            color: var(--neon-cyan);
+            cursor: pointer;
+        }
+        
+        /* HERO */
+        #home {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            text-align: center;
+            padding: 0 5%;
+        }
+        
+        .hero-content {
+            max-width: 900px;
+            z-index: 2;
+        }
+        
+        .hero-heading {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 600;
+            line-height: 1.05;
+            margin-bottom: 1rem;
+            color: #fff;
+            text-shadow: 
+                0 0 20px var(--neon-cyan),
+                0 0 40px var(--neon-cyan),
+                0 0 80px var(--neon-cyan);
+            animation: glow-pulse 3s ease-in-out infinite alternate;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.8rem;
+            color: var(--neon-cyan);
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+            letter-spacing: 3px;
+        }
+        
+        .hero-text {
+            font-size: 1.25rem;
+            max-width: 700px;
+            margin: 0 auto 3rem;
+            opacity: 0.9;
+        }
+        
+        .tech-images {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .tech-images img {
+            width: 180px;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 16px;
+            border: 2px solid rgba(0, 245, 255, 0.3);
+            box-shadow: 
+                0 0 15px var(--neon-cyan),
+                0 0 30px rgba(0, 170, 255, 0.4);
+            transition: all 0.4s ease;
+        }
+        
+        .tech-images img:hover {
+            transform: scale(1.08) rotate(2deg);
+            box-shadow: 
+                0 0 30px var(--neon-cyan),
+                0 0 50px rgba(0, 170, 255, 0.6);
+        }
+        
+        /* SCROLL INDICATOR */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.9rem;
+            color: var(--neon-cyan);
+            animation: bounce 2s infinite;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        /* SECTIONS */
+        section {
+            padding: 100px 5%;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .section-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 4rem;
+            color: #fff;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--neon-cyan), transparent);
+            box-shadow: 0 0 20px var(--neon-cyan);
+        }
+        
+        /* ABOUT */
+        #about {
+            background: rgba(15, 15, 25, 0.6);
+        }
+        
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.6fr;
+            gap: 5rem;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .profile-container {
+            display: flex;
+            justify-content: center;
+        }
+        
+        .profile-img {
+            width: 320px;
+            height: 320px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 6px solid var(--neon-cyan);
+            box-shadow: 
+                0 0 30px var(--neon-cyan),
+                0 0 60px rgba(0, 245, 255, 0.5);
+            transition: all 0.5s ease;
+        }
+        
+        .profile-img:hover {
+            transform: scale(1.05);
+            box-shadow: 
+                0 0 50px var(--neon-cyan),
+                0 0 90px rgba(0, 245, 255, 0.7);
+        }
+        
+        .about-text {
+            font-size: 1.15rem;
+            line-height: 1.8;
+            color: #ddd;
+        }
+        
+        .education {
+            margin-top: 2.5rem;
+            background: rgba(255,255,255,0.03);
+            padding: 2rem;
+            border-radius: 16px;
+            border: 1px solid rgba(0, 245, 255, 0.15);
+            backdrop-filter: blur(8px);
+        }
+        
+        .education h3 {
+            color: var(--neon-cyan);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+        
+        .education ul {
+            list-style: none;
+        }
+        
+        .education li {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .education li:last-child {
+            border-bottom: none;
+        }
+        
+        /* SKILLS */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .skill-card {
+            background: rgba(20, 20, 35, 0.7);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(0, 245, 255, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            transition: all 0.4s ease;
+            height: 100%;
+        }
+        
+        .skill-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 
+                0 0 30px var(--neon-cyan),
+                0 20px 40px rgba(0, 245, 255, 0.3);
+            border-color: var(--neon-cyan);
+        }
+        
+        .skill-card img {
+            width: 100%;
+            height: 240px;
+            object-fit: cover;
+            border-bottom: 1px solid rgba(0, 245, 255, 0.3);
+        }
+        
+        .skill-content {
+            padding: 1.8rem;
+        }
+        
+        .skill-content h3 {
+            font-size: 1.6rem;
+            color: var(--neon-cyan);
+            margin-bottom: 1.2rem;
+            text-align: center;
+        }
+        
+        .skill-content ul {
+            list-style: none;
+        }
+        
+        .skill-content li {
+            padding: 10px 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.05rem;
+        }
+        
+        .skill-content li::before {
+            content: '⚡';
+            color: var(--neon-cyan);
+            font-size: 1.2rem;
+        }
+        
+        /* PROJECTS */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .project-card {
+            background: rgba(20, 20, 35, 0.7);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(0, 245, 255, 0.2);
+            transition: all 0.4s ease;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 0 40px rgba(0, 245, 255, 0.4);
+        }
+        
+        .project-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .project-info {
+            padding: 1.8rem;
+        }
+        
+        .project-info h3 {
+            color: #fff;
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+        }
+        
+        /* INTERNSHIPS */
+        .internships-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .intern-card {
+            background: rgba(20, 20, 35, 0.7);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(0, 245, 255, 0.2);
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            transition: all 0.4s ease;
+        }
+        
+        .intern-card:hover {
+            box-shadow: 0 0 35px var(--neon-cyan);
+        }
+        
+        .intern-card img {
+            width: 140px;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 12px;
+            border: 3px solid var(--neon-cyan);
+            flex-shrink: 0;
+        }
+        
+        .intern-content h3 {
+            color: var(--neon-cyan);
+            margin-bottom: 0.8rem;
+        }
+        
+        .demo-link {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 10px 24px;
+            background: transparent;
+            border: 2px solid var(--neon-cyan);
+            color: var(--neon-cyan);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(0, 245, 255, 0.5);
+        }
+        
+        .demo-link:hover {
+            background: var(--neon-cyan);
+            color: #0a0a0a;
+            transform: scale(1.05);
+        }
+        
+        /* ACHIEVEMENTS */
+        .achievements-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(20, 20, 35, 0.6);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        th, td {
+            padding: 18px 24px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+        
+        th {
+            background: rgba(0, 245, 255, 0.1);
+            color: var(--neon-cyan);
+            font-size: 1.1rem;
+        }
+        
+        .author-showcase {
+            margin-top: 5rem;
+            display: flex;
+            gap: 3rem;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .author-image {
+            width: 260px;
+            height: 260px;
+            border-radius: 20px;
+            object-fit: cover;
+            border: 4px solid var(--neon-cyan);
+            box-shadow: 0 0 30px var(--neon-cyan);
+            transition: all 0.4s ease;
+        }
+        
+        .author-image:hover {
+            transform: scale(1.06);
+        }
+        
+        .author-text {
+            max-width: 520px;
+            font-size: 1.15rem;
+            line-height: 1.75;
+            color: #ccc;
+            text-align: center;
+        }
+        
+        /* CONTACT */
+        #contact {
+            background: rgba(15, 15, 25, 0.7);
+        }
+        
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        
+        .contact-info h2 {
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+            color: var(--neon-cyan);
+        }
+        
+        .contact-info p {
+            font-size: 1.15rem;
+            margin-bottom: 2rem;
+            color: #bbb;
+        }
+        
+        .contact-details {
+            font-size: 1.1rem;
+            line-height: 2.2;
+        }
+        
+        .contact-details a {
+            color: var(--neon-cyan);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .contact-details a:hover {
+            text-shadow: 0 0 12px var(--neon-cyan);
+        }
+        
+        .form-container {
+            background: rgba(10, 10, 20, 0.8);
+            padding: 2.5rem;
+            border-radius: 20px;
+            border: 1px solid rgba(0, 245, 255, 0.2);
+        }
+        
+        .form-group {
+            margin-bottom: 1.6rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #aaa;
+            font-size: 0.95rem;
+        }
+        
+        input, textarea {
+            width: 100%;
+            padding: 14px 18px;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(0, 245, 255, 0.3);
+            border-radius: 12px;
+            color: #fff;
+            font-size: 1.05rem;
+            transition: all 0.3s ease;
+        }
+        
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 0 4px rgba(0, 245, 255, 0.2);
+        }
+        
+        button {
+            width: 100%;
+            padding: 16px;
+            background: var(--neon-cyan);
+            color: #0a0a0a;
+            font-weight: 700;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px rgba(0, 245, 255, 0.6);
+        }
+        
+        button:hover {
+            background: #00ccff;
+            transform: translateY(-3px);
+            box-shadow: 0 0 30px rgba(0, 245, 255, 0.8);
+        }
+        
+        /* FOOTER */
+        footer {
+            text-align: center;
+            padding: 3rem 5%;
+            background: #050505;
+            font-size: 0.95rem;
+            color: #666;
+            border-top: 1px solid rgba(0, 245, 255, 0.1);
+        }
+
+        td a {
+            color: #87CEEB;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        td a:hover {
+            color: #00e6ff;
+            text-shadow: 0 0 5px #00e6ff, 0 0 10px #00e6ff;
+        }
+        
+        /* ANIMATIONS */
+        @keyframes glow-pulse {
+            from { text-shadow: 0 0 20px var(--neon-cyan), 0 0 40px var(--neon-cyan); }
+            to { text-shadow: 0 0 30px var(--neon-cyan), 0 0 70px var(--neon-cyan), 0 0 100px var(--neon-cyan); }
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(15px); }
+        }
+        
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: #0a0a0a;
+                flex-direction: column;
+                padding: 1.5rem;
+                gap: 1.5rem;
+                border-top: 1px solid rgba(0, 245, 255, 0.2);
+            }
+            
+            .nav-links.active {
+                display: flex;
+            }
+            
+            .hamburger {
+                display: block;
+            }
+            
+            .about-grid {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+            
+            .author-showcase {
+                flex-direction: column;
+            }
+        }
+        .project-link {
+            color: #87CEEB;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .project-link:hover {
+            color: #00e6ff;
+            text-shadow: 0 0 5px #00e6ff, 0 0 10px #00e6ff;
+        }
+    </style>
+</head>
+<body>
+    <!-- BACKGROUND CANVAS -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- NAVIGATION -->
+    <nav id="navbar">
+        <div class="logo">SZ</div>
+        <ul class="nav-links" id="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#internships">Internships</a></li>
+            <li><a href="#achievements">Achievements</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <div class="hamburger" id="hamburger">☰</div>
+    </nav>
+
+    <!-- HOME / HERO -->
+    <section id="home">
+        <div class="hero-content">
+            <h1 class="hero-heading">SAMIKSHA ZODAPE</h1>
+            <p class="hero-subtitle">MY PORTFOLIO</p>
+            <p class="hero-text">
+                Studying at JD College of Engineering &amp; Management<br>
+                Electronics &amp; Telecommunication Engineer
+            </p>
+            
+            <!-- Tech placeholder images -->
+            
+            <div class="scroll-indicator">
+                <span>SCROLL TO EXPLORE</span>
+                <span style="font-size: 2rem;">↓</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about">
+        <h2 class="section-title">ABOUT ME</h2>
+        
+        <div class="about-grid">
+            <!-- Profile Image -->
+            <div class="profile-container">
+                <img src= "Biddos Photo.jpeg"class="profile-img">
+            </div>
+            
+            <!-- Text -->
+            <div>
+                <p class="about-text">
+                    Engineering student pursuing B.Tech in Electronics and Telecommunication Engineering with a strong interest in technology, creativity, and digital innovation. Passionate about learning new skills in electronics, programming, and design while applying them in practical environments through internships, projects, and collaborative work.
+                </p>
+                
+                <div class="education">
+                    <h3>EDUCATION</h3>
+                    <ul>
+                        <li>
+                            <span><strong>JD College of Engineering and Management, Nagpur</strong></span>
+                            <span>B.Tech – Electronics and Telecommunication Engineering (Pursuing)<br>2024 – 2028</span>
+                        </li>
+                        <li>
+                            <span><strong>LAD Junior College, Nagpur</strong></span>
+                            <span>Higher Secondary Certificate (HSC)<br>2023-2024</span>
+                        </li>
+                        <li>
+                            <span><strong>St. Joseph High School, Nagpur</strong></span>
+                            <span>Secondary School Certificate (SSC)<br>2021-2022</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills">
+        <h2 class="section-title">SKILLS</h2>
+        
+        <div class="skills-grid">
+            <!-- Technical Skills -->
+            <div class="skill-card">
+                <img src="Technical_skill.jpeg" alt="Technical Skills">
+                <div class="skill-content">
+                    <h3>Technical Skills</h3>
+                    <ul>
+                        <li>C, C++</li>
+                        <li>Python</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Creative Skills -->
+            <div class="skill-card">
+                <img src="Creative.jpeg" alt="Creative Skills">
+                <div class="skill-content">
+                    <h3>Creative Skills</h3>
+                    <ul>
+                        <li>Graphic Designing</li>
+                        <li>Video Editing</li>
+                        <li>Digital Marketing</li>
+                        <li>Basic Web Development</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Soft Skills -->
+            <div class="skill-card">
+                <img src="soft_skill.jpeg" alt="Soft Skills">
+                <div class="skill-content">
+                    <h3>Soft Skills</h3>
+                    <ul>
+                        <li>Communication Skills</li>
+                        <li>Leadership Qualities</li>
+                        <li>Team Collaboration</li>
+                        <li>Creative Thinking</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects">
+        <h2 class="section-title">PROJECTS</h2>
+        
+        <div class="projects-grid">
+            <!-- Project 1 -->
+            <div class="project-card">
+                <img src="Solar_Tracker.jpeg" alt="Sun Detector Solar Panel">
+                <div class="project-info">
+                    <h3>Sun Detector Rotation Solar Panel System</h3>
+                    <p>Designed a solar panel system capable of detecting sunlight direction and rotating accordingly to improve energy efficiency.</p>
+                </div>
+            </div>
+            
+            <!-- Project 2 -->
+            <div class="project-card">
+                <img src="RC mini Car.jpeg" alt="RC Mini Car">
+                <div class="project-info">
+                    <h3>RC Mini Car</h3>
+                    <p>Built and tested a small remote-controlled car model demonstrating electronic and mechanical principles.</p>
+                </div>
+            </div>
+            
+            <!-- Project 3 -->
+            <div class="project-card">
+                <div class="project-info">
+                    <h3>Complaint Box Management System</h3>
+                    <p>Developed a website for Complaining the uses at oficial Level using AI-based prompts.</p>
+                    <a href="https://arshiyaram.github.io/college/" target="_blank" class="project-link"><b><br>Visit Project</b></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- INTERNSHIPS -->
+    <section id="internships">
+        <h2 class="section-title">INTERNSHIPS &amp; TRAINING</h2>
+        
+        <div class="internships-grid">
+            <!-- Internship 1 -->
+            <div class="intern-card">
+                <img src="Emertex.png" alt="Certificate">
+                <div class="intern-content">
+                    <h3>Embedded Systems Internship – Emertex Embedded Systems</h3>
+                    <p>Completed a 4-week internship focused on embedded systems and microcontrollers.</p>
+                    <div style="margin-top: 1.2rem;">
+                        <span style="font-size: 0.95rem; color: #888;">Internship Project</span><br>
+                        <a href="https://youtu.be/KUCAMnMAqfQ" target="_blank" class="demo-link">Watch Demo Video</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Internship 2 -->
+            <div class="intern-card">
+                <img src="upSkill.png" alt="Certificate">
+                <div class="intern-content">
+                    <h3>Python Upskill Internship</h3>
+                    <p>Completed a 1-month internship focused on Python programming.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ACHIEVEMENTS -->
+    <section id="achievements">
+        <h2 class="section-title">ACHIEVEMENTS</h2>
+        
+        <div class="achievements-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ACHIEVEMENT</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>1st Year: Hospitality Head</td></tr>
+                    <tr><td>2nd Year: Documentation Co-Head</td></tr>
+                    <tr><td>Silver Medal in Poster Competition (Vidarbha Level)</td></tr>
+                    <tr><td>Robotics Member (2nd Year)</td></tr>
+                    <tr><td>Class Representative (1st–2nd Year)</td></tr>
+                    <tr><td>Participated in 24 hour Hackathon in YCCE</td></tr>
+                    <tr><td>Participated in 12 hour Hackathon in IIIT Nagpur</td></tr>
+                    <tr><td>Wrote two Dark Fantasy Novels available on Amazon<br><a href="https://amzn.in/d/3sj5mr4" target="_blank">1. Royal Ashes</a><br><a href="https://play.google.com/store/books/details/Samiksha_Zodape_Intimate_Deception?id=kSJBEQAAQBAJ" target="_blank">2. Intimate Deception</a></td></tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+        <h2 class="section-title">GET IN TOUCH</h2>
+        
+        <div class="contact-grid">
+            <!-- Left Info -->
+            <div class="contact-info">
+                <h2>SAMIKSHA ZODAPE</h2>
+                <p>Want to gain more knowledge and expertise in hands-on projects and technology. Also a published novel writer. Let's connect and build the future of technology and creativity.</p>
+                
+                <div class="contact-details">
+                    <p><strong>Phone:</strong> <a href="tel:7499253662">7499253662</a></p>
+                    <p><strong>Email:</strong> <a href="mailto:samikshazodape1@gmail.com">samikshazodape1@gmail.com</a></p>
+                    <p><strong>LinkedIn:</strong> <a href="https://linkedin.com/in/samiksha-zodape" target="_blank">linkedin.com/in/samiksha-zodape</a></p>
+                    <p><strong>Location:</strong> Nagpur, Maharashtra, India</p>
+                </div>
+            </div>
+            
+            <!-- Form -->
+            <div class="form-container">
+                <form id="contact-form">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone">
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Reason / Message</label>
+                        <textarea id="message" rows="5" required></textarea>
+                    </div>
+                    <button type="submit">SEND MESSAGE</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        &copy; 2026 Samiksha Zodape. Built with passion &amp; neon glow.
+    </footer>
+
+    <script>
+        // ============== BACKGROUND PARTICLES ==============
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        
+        let particles = [];
+        const particleCount = 80;
+        
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 3.5 + 1.2;
+                this.speedX = Math.random() * 0.8 - 0.4;
+                this.speedY = Math.random() * 0.8 - 0.4;
+                this.hue = Math.random() * 20 + 180; // cyan-blue range
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                
+                // Wrap around edges
+                if (this.x < 0) this.x = canvas.width;
+                if (this.x > canvas.width) this.x = 0;
+                if (this.y < 0) this.y = canvas.height;
+                if (this.y > canvas.height) this.y = 0;
+            }
+            draw() {
+                ctx.save();
+                ctx.shadowBlur = 18;
+                ctx.shadowColor = `hsl(${this.hue}, 100%, 75%)`;
+                ctx.fillStyle = `hsl(${this.hue}, 90%, 85%)`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+        
+        function initParticles() {
+            particles = [];
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Particle());
+            }
+        }
+        
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+            }
+            
+            requestAnimationFrame(animateParticles);
+        }
+        
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            initParticles();
+        }
+        
+        // ============== NAV & MOBILE ==============
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('nav-links');
+        
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+        
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+            });
+        });
+        
+        // ============== SMOOTH SCROLL ==============
+        function smoothScroll() {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetSection = document.getElementById(targetId);
+                    
+                    if (targetSection) {
+                        targetSection.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        }
+        
+        // ============== FADE-IN ON SCROLL ==============
+        function fadeInSections() {
+            const sections = document.querySelectorAll('section');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.15,
+                rootMargin: "0px 0px -80px 0px"
+            });
+            
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        }
+        
+        // ============== CONTACT FORM ==============
+        function handleForm() {
+            const form = document.getElementById('contact-form');
+            
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const name = document.getElementById('name').value.trim();
+                const email = document.getElementById('email').value.trim();
+                const message = document.getElementById('message').value.trim();
+                
+                if (!name || !email || !message) {
+                    alert("Please fill all required fields ✨");
+                    return;
+                }
+                
+                // Simple email validation
+                if (!email.includes('@') || !email.includes('.')) {
+                    alert("Please enter a valid email address");
+                    return;
+                }
+                
+                // Success
+                const btn = form.querySelector('button');
+                const originalText = btn.textContent;
+                
+                btn.style.background = '#00cc66';
+                btn.textContent = 'MESSAGE SENT ✓';
+                
+                setTimeout(() => {
+                    alert(`Thank you, ${name}!\nYour message has been received. Samiksha will get back to you soon!`);
+                    form.reset();
+                    btn.style.background = '';
+                    btn.textContent = originalText;
+                }, 800);
+            });
+        }
+        
+        // ============== INITIALIZE EVERYTHING ==============
+        window.onload = function() {
+            // Canvas
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+            initParticles();
+            animateParticles();
+            
+            // Other features
+            smoothScroll();
+            fadeInSections();
+            handleForm();
+            
+            // Make first section visible immediately
+            document.getElementById('home').classList.add('visible');
+            
+            // Navbar scroll effect
+            const navbar = document.getElementById('navbar');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 80) {
+                    navbar.style.background = 'rgba(10, 10, 10, 0.95)';
+                } else {
+                    navbar.style.background = 'rgba(10, 10, 10, 0.85)';
+                }
+            });
+            
+            console.log('%c✨ Samiksha Zodape Portfolio Loaded Successfully ✨', 'color:#00f5ff; font-family:monospace; font-size:13px');
+        };
+    </script>
+</body>
+</html>
